@@ -1,4 +1,4 @@
-
+import time
 import random
 import heapq
 
@@ -266,111 +266,120 @@ def uniform_cost_search(labirinto, inicio, goal, viewer):
 
 
 def main():
-    while True:
-        SEED = 3141  # coloque None no lugar do 42 para deixar aleatorio
-        random.seed(SEED)
-        N_LINHAS  = 20
-        N_COLUNAS = 30 
-        INICIO = Celula(y=0, x=0, anterior=None)
-        GOAL   = Celula(y=N_LINHAS-1, x=N_COLUNAS-1, anterior=None)
+    SEED = 314  # coloque None no lugar do 42 para deixar aleatorio
+    random.seed(SEED)
+    N_LINHAS  = 200
+    N_COLUNAS = 300 
+    INICIO = Celula(y=0, x=0, anterior=None)
+    GOAL   = Celula(y=N_LINHAS-1, x=N_COLUNAS-1, anterior=None)
 
 
-        """
-        O labirinto sera representado por uma matriz (lista de listas)
-        em que uma posicao tem 0 se ela eh livre e 1 se ela esta ocupada.
-        """
-        labirinto = gera_labirinto(N_LINHAS, N_COLUNAS, INICIO, GOAL)
+    """
+    O labirinto sera representado por uma matriz (lista de listas)
+    em que uma posicao tem 0 se ela eh livre e 1 se ela esta ocupada.
+    """
+    labirinto = gera_labirinto(N_LINHAS, N_COLUNAS, INICIO, GOAL)
 
-        # viewer = MazeViewer(labirinto, INICIO, GOAL,
-        #                     step_time_miliseconds=20, zoom=40)
+    # viewer = MazeViewer(labirinto, INICIO, GOAL,
+    #                     step_time_miliseconds=20, zoom=40)
 
-        #----------------------------------------
-        # BFS Search
-        #----------------------------------------
-        # viewer._figname = "BFS"
-        caminho, custo_total, expandidos = \
-                breadth_first_search(labirinto, INICIO, GOAL, None)
+    #----------------------------------------
+    # BFS Search
+    #----------------------------------------
+    # viewer._figname = "BFS"
+    start = time.time()
+    caminho, custo_total, expandidos = \
+            breadth_first_search(labirinto, INICIO, GOAL, None)
+    end = time.time()
+    
+    if len(caminho) == 0:
+        print("Goal é inalcançavel neste labirinto.")
 
-        if len(caminho) == 0:
-            print("Goal é inalcançavel neste labirinto.")
+    print(
+        f"BFS:"
+        f"\tTempo: {(end - start)}.\n"
+        f"\tNumero de nos expandidos: {len(expandidos)}.\n"
+        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS}.\n"
+        f"\tCusto do caminho: {custo_total}.\n"
+        f"\tTamanho do caminho: {len(caminho)-1}.\n\n"
+    )
 
-        print(
-            f"BFS:"
-            f"\tCusto total do caminho: {custo_total}.\n"
-            f"\tNumero de passos: {len(caminho)-1}.\n"
-            f"\tNumero total de nos expandidos: {len(expandidos)}.\n\n"
-
-        )
-
-        # viewer.update(path=caminho)
-        # viewer.pause()
+    # viewer.update(path=caminho)
+    # viewer.pause()
 
 
-        #----------------------------------------
-        # DFS Search
-        #----------------------------------------
-        # viewer._figname = "DFS"
-        caminho, custo_total, expandidos = \
-                depth_first_search(labirinto, INICIO, GOAL, None)
+    #----------------------------------------
+    # DFS Search
+    #----------------------------------------
+    # viewer._figname = "DFS"
+    start = time.time()
+    caminho, custo_total, expandidos = \
+            depth_first_search(labirinto, INICIO, GOAL, None)
+    end = time.time()
 
-        if len(caminho) == 0:
-            print("Goal é inalcançavel neste labirinto.")
+    if len(caminho) == 0:
+        print("Goal é inalcançavel neste labirinto.")
 
-        print(
-            f"DFS:"
-            f"\tCusto total do caminho: {custo_total}.\n"
-            f"\tNumero de passos: {len(caminho)-1}.\n"
-            f"\tNumero total de nos expandidos: {len(expandidos)}.\n\n"
+    print(
+        f"DFS:"
+        f"\tTempo: {(end - start)}.\n"
+        f"\tNumero de nos expandidos: {len(expandidos)}.\n"
+        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS}.\n"
+        f"\tCusto do caminho: {custo_total}.\n"
+        f"\tTamanho do caminho: {len(caminho)-1}.\n\n"
+    )
 
-        )
+    # viewer.update(path=caminho)
+    # viewer.pause()
 
-        # viewer.update(path=caminho)
-        # viewer.pause()
+    #----------------------------------------
+    # A-Star Search
+    #----------------------------------------
+    # viewer._figname = "A*"
+    start = time.time()
+    caminho, custo_total, expandidos = \
+            a_star_search(labirinto, INICIO, GOAL, None)
+    end = time.time()
 
-        #----------------------------------------
-        # A-Star Search
-        #----------------------------------------
-        # viewer._figname = "A*"
-        caminho, custo_total, expandidos = \
-                a_star_search(labirinto, INICIO, GOAL, None)
+    if len(caminho) == 0:
+        print("Goal é inalcançavel neste labirinto.")
 
-        if len(caminho) == 0:
-            print("Goal é inalcançavel neste labirinto.")
+    print(
+        f"A*:"
+        f"\tTempo: {(end - start)}.\n"
+        f"\tNumero de nos expandidos: {len(expandidos)}.\n"
+        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS}.\n"
+        f"\tCusto do caminho: {custo_total}.\n"
+        f"\tTamanho do caminho: {len(caminho)-1}.\n\n"
+    )
 
-        print(
-            f"A*:"
-            f"\tCusto total do caminho: {custo_total}.\n"
-            f"\tNumero de passos: {len(caminho)-1}.\n"
-            f"\tNumero total de nos expandidos: {len(expandidos)}.\n\n"
+    # viewer.update(path=caminho)
+    # viewer.pause()
 
-        )
+    #----------------------------------------
+    # Uniform Cost Search (Obs: opcional)
+    #----------------------------------------
 
-        # viewer.update(path=caminho)
-        # viewer.pause()
+    # viewer._figname = "Uniform Cost Search"
+    start = time.time()
+    caminho, custo_total, expandidos = \
+            uniform_cost_search(labirinto, INICIO, GOAL, None)
+    end = time.time()
 
-        #----------------------------------------
-        # Uniform Cost Search (Obs: opcional)
-        #----------------------------------------
+    if len(caminho) == 0:
+        print("Goal é inalcançavel neste labirinto.")
 
-        # viewer._figname = "Uniform Cost Search"
-        caminho, custo_total, expandidos = \
-                uniform_cost_search(labirinto, INICIO, GOAL, None)
+    print(
+        f"UCS:"
+        f"\tTempo: {(end - start)}.\n"
+        f"\tNumero de nos expandidos: {len(expandidos)}.\n"
+        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS}.\n"
+        f"\tCusto do caminho: {custo_total}.\n"
+        f"\tTamanho do caminho: {len(caminho)-1}.\n\n"
+    )
 
-        if len(caminho) == 0:
-            print("Goal é inalcançavel neste labirinto.")
-
-        print(
-            f"UCS:"
-            f"\tCusto total do caminho: {custo_total}.\n"
-            f"\tNumero de passos: {len(caminho)-1}.\n"
-            f"\tNumero total de nos expandidos: {len(expandidos)}.\n\n"
-
-        )
-
-        # viewer.update(path=caminho)
-        # viewer.pause()
-
-        break
+    # viewer.update(path=caminho)
+    # viewer.pause()
 
     print("OK! Pressione alguma tecla pra finalizar...")
     input()
