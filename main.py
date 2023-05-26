@@ -150,7 +150,7 @@ def breadth_first_search(labirinto, inicio, goal, viewer):
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
 
-    return caminho, custo, expandidos
+    return len(caminho) -1, custo, expandidos
 
 
 def depth_first_search(labirinto, inicio, goal, viewer):
@@ -183,7 +183,7 @@ def depth_first_search(labirinto, inicio, goal, viewer):
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
 
-    return caminho, custo, expandidos
+    return len(caminho) -1, custo, expandidos
         
 def a_star_search(labirinto, inicio, goal, viewer):
     expandidos = set()
@@ -223,7 +223,7 @@ def a_star_search(labirinto, inicio, goal, viewer):
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
 
-    return caminho, custo, expandidos
+    return len(caminho) -1, custo, expandidos
 
 def uniform_cost_search(labirinto, inicio, goal, viewer):
     expandidos = set()
@@ -260,7 +260,7 @@ def uniform_cost_search(labirinto, inicio, goal, viewer):
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
 
-    return caminho, custo, expandidos
+    return len(caminho) -1, custo, expandidos
 
 #-------------------------------
 
