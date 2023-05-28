@@ -12,7 +12,7 @@ def gera_labirinto(n_linhas, n_colunas, inicio, goal):
     # cria labirinto vazio
     labirinto = [[0] * n_colunas for _ in range(n_linhas)]
 
-    numero_de_obstaculos = int(0.5 * n_linhas * n_colunas)
+    numero_de_obstaculos = int(0.5 * n_linhas * n_colunas / 2)
     for _ in range(numero_de_obstaculos):
         linha = random.randint(0, n_linhas-1)
         coluna = random.randint(0, n_colunas-1)
@@ -150,7 +150,7 @@ def breadth_first_search(labirinto, inicio, goal, viewer):
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
 
-    return len(caminho) -1, custo, expandidos
+    return caminho, custo, expandidos
 
 
 def depth_first_search(labirinto, inicio, goal, viewer):
@@ -183,7 +183,7 @@ def depth_first_search(labirinto, inicio, goal, viewer):
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
 
-    return len(caminho) -1, custo, expandidos
+    return caminho, custo, expandidos
         
 def a_star_search(labirinto, inicio, goal, viewer):
     expandidos = set()
@@ -223,7 +223,7 @@ def a_star_search(labirinto, inicio, goal, viewer):
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
 
-    return len(caminho) -1, custo, expandidos
+    return caminho, custo, expandidos
 
 def uniform_cost_search(labirinto, inicio, goal, viewer):
     expandidos = set()
@@ -260,7 +260,7 @@ def uniform_cost_search(labirinto, inicio, goal, viewer):
     caminho = obtem_caminho(goal_encontrado)
     custo   = custo_caminho(caminho)
 
-    return len(caminho) -1, custo, expandidos
+    return caminho, custo, expandidos
 
 #-------------------------------
 
@@ -299,7 +299,7 @@ def main():
         f"BFS:"
         f"\tTempo: {(end - start)}.\n"
         f"\tNumero de nos expandidos: {len(expandidos)}.\n"
-        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS}.\n"
+        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS / 2}.\n"
         f"\tCusto do caminho: {custo_total}.\n"
         f"\tTamanho do caminho: {len(caminho)-1}.\n\n"
     )
@@ -324,7 +324,7 @@ def main():
         f"DFS:"
         f"\tTempo: {(end - start)}.\n"
         f"\tNumero de nos expandidos: {len(expandidos)}.\n"
-        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS}.\n"
+        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS / 2}.\n"
         f"\tCusto do caminho: {custo_total}.\n"
         f"\tTamanho do caminho: {len(caminho)-1}.\n\n"
     )
@@ -348,7 +348,7 @@ def main():
         f"A*:"
         f"\tTempo: {(end - start)}.\n"
         f"\tNumero de nos expandidos: {len(expandidos)}.\n"
-        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS}.\n"
+        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS / 2}.\n"
         f"\tCusto do caminho: {custo_total}.\n"
         f"\tTamanho do caminho: {len(caminho)-1}.\n\n"
     )
@@ -373,7 +373,7 @@ def main():
         f"UCS:"
         f"\tTempo: {(end - start)}.\n"
         f"\tNumero de nos expandidos: {len(expandidos)}.\n"
-        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS}.\n"
+        f"\tNumero de nos gerados: {N_LINHAS * N_COLUNAS / 2}.\n"
         f"\tCusto do caminho: {custo_total}.\n"
         f"\tTamanho do caminho: {len(caminho)-1}.\n\n"
     )
