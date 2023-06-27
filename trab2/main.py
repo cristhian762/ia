@@ -20,13 +20,25 @@ import math
 
 import plotly.graph_objects as go
 
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+
 def generateDataFrameCost(algorithmData):
     names  = algorithmData.keys()
 
     lin = len(names)
     col = 10
 
-    return pd.DataFrame(np.zeros((lin, col)), index='ALGORITMO')
+    dataFrameCost = pd.DataFrame(np.zeros((lin, col)), index=names)
+
+    dataFrameCost.index.name='ALGORITMO'
+
+    for algorithm, item in algorithmData.items():
+        for i in range(10):
+            dataFrameCost.loc[algorithm, i] = item[i]['cost']
+
+    return dataFrameCost
 
 def linearRankSelection(population):
     populationSize = len(population)
@@ -147,7 +159,6 @@ def simulatedAnnealing(tsp, initSolution, initialTemperature, coolingRate):
         temperature *= coolingRate
 
     return bestCost, bestSolution
-
 
 def acceptanceProbability(currentCost, neighborCost, temperature):
     if neighborCost < currentCost:
@@ -424,9 +435,27 @@ def main():
     # data = generateResultTSP()
 
     data = getData()
+    print(data)
 
     dataFrameCost = generateDataFrameCost(data['result'])
+    print(dataFrameCost)
 
     boxplotSorted(dataFrameCost, rot=90, figsize=(12,6), fontsize=20)
+    print(dataFrameCost.describe())
 
-main()
+    print(data['result'])
+    for algorithm, item in data['result'].items():
+        bestSoluctin = item[0]['solution']
+        bestCost = item[0]['cost']
+
+        for i in range(1, 10):
+            if item[i]['cost'] < bestCost:
+                bestCost = item[i]['cost']
+                bestSoluctin = item[i]['solution']
+        
+        print(algorithm)
+        print(bestCost)
+        plotRoutes(data['dataFrameCities'], bestSoluctin)
+
+if __name__ == "__main__":
+    main()
